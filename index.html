@@ -1,0 +1,118 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Coastlines of the World</title>
+  <link rel="stylesheet" type="text/css" href="css/map.css" />
+  <link rel="stylesheet" type="text/css" href="css/color.css" />
+  <link rel="stylesheet" type="text/css" href="css/tip.css" />
+  <link rel="stylesheet" type="text/css" href="css/legend.css" />
+  <link rel="stylesheet" type="text/css" href="css/c3.min.css" />
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
+  <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+  <script src="http://underscorejs.org/underscore-min.js"></script>
+  <script src="js/d3.geo.zoom.js"></script>
+  <script src="js/map.tip.js"></script>
+  <script src="js/map.legend.js"></script>
+  <script src="js/c3.min.js"></script>
+  <style type="text/css">
+      body {
+          font-family: sans-serif;
+          -webkit-text-size-adjust: 100%;
+          -ms-text-size-adjust: 100%;
+          text-size-adjust: 100%;
+      }
+  </style>
+</head>
+
+<body style="text-align:center">
+
+  <div id="map"></div>
+  <div id="template" style="display: none">
+    <!--Tooltip template-->
+
+  </div>
+
+
+  <script>
+    //Basic settings
+    var width = 800;
+    var height = 600;
+    var _data = void 0;
+
+    //Projection
+    var projection = d3.geo.orthographic()
+      .scale(286.432160804)
+      .translate([513.567839196, 313.567839196])
+      .clipAngle(90)
+      .rotate([0.0, 0]);
+    var path = d3.geo.path().projection(projection);
+	    
+    //Map container
+    var svg = d3.select("#map")
+      .append("svg")
+      .attr("id", "mapSvg")
+      .attr("width", width)
+      .attr("height", height)
+      .append("g");
+      
+
+	
+    //Vector group
+    var vectors = svg.append("g")
+      .attr("class", "polygon");
+      
+    //Overlay
+    vectors.append("rect")
+      .attr("class", "overlay")
+      .attr("width", width)
+      .attr("height", height);
+
+
+
+    //Vector polygons
+    var vectors0 = vectors.append("g");
+    var vector0 = void 0;
+
+
+    //Download
+    queue(2)
+      .defer(d3.json, "json/ne10mcoastline.json")
+
+      .await(ready);
+
+    //Load map when downloaded
+    function ready(error, json0) {
+      if (error) return console.error(error);
+	  
+      //Polygon features
+      var object0 = json0;
+
+
+      //Add all vector features
+      path.pointRadius(1.0);
+      vector0 = vectors0.selectAll("path").data(object0.features);
+      vector0.enter()
+        .append("path")
+        .attr("id", function (d) { return d.properties.ogc_fid; })
+        .attr("d", path)
+        .attr("class", function (d) { return d.properties.d3Css; });
+
+
+    
+
+
+
+    }
+
+
+
+
+  
+
+  
+ </script>
+</body>
+</html>
