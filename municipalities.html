@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finns on a map</title>
+    <meta charset="utf-8" />
+    <link
+        rel="stylesheet"
+        href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css"
+    />
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div id="map"></div>
+
+    <script
+        src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script>
+	
+	function style(feature) {
+		return {
+			opacity: 50,
+			color: 'black',
+			fillOpacity: 50,
+			fillColor: 'red'
+		};
+	}
+	
+        var mymap = L.map('map', {
+            maxZoom: 17,
+            minZoom: 5,
+            maxBounds: 	[
+                        [90, -90],
+                        [-90, 90]
+                        ],
+        
+        }).setView([0 , 0], 7);
+
+        L.tileLayer('http://columbo.navici.cloud/columbo/{z}/{x}/{y}.png', {
+                layers: 'matlock',
+                maxZoom: 17,
+                minZoom: 5,
+                format: 'image/png',
+                transparent: false,
+                attribution: 'Contains data from the <a href=http://www.maanmittauslaitos.fi/digituotteet/maastotietokanta>National Land Survey of Finland Topographic Database</a>, <a href= http://www.stat.fi/tup/paavo/index_en.html> Paavo Statistics Finland 2016</a>, <a href= http://www.liikennevirasto.fi/web/en>Liikennevirasto Digiroad</a> ' +
+                        '<a href="http://naturalearth.com">Natural Earth</a>,'
+						
+        }).addTo(mymap);
+		$.getJSON("data/kunnat.json",
+				function(data){
+				L.geoJson(data, { 
+				style: style,
+				 onEachFeature: function( feature, layer ){
+					layer.bindPopup( "<strong>" + feature.properties.nimi + "</strong><br/>" + feature.properties.he_vakiy + " inhabitants" )
+				  }
+				}).addTo(mymap);
+			  });
+
+
+        $(document).ready(function(){
+            $(".icon").click(function() {
+                $(".info").toggle();
+            });
+        });
+    </script>
+</body>
+</html>
+
