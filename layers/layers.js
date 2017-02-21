@@ -1,15 +1,15 @@
-var format_kunnatOGRGeoJSONMultiPolygon = new ol.format.GeoJSON();
-var features_kunnatOGRGeoJSONMultiPolygon = format_kunnatOGRGeoJSONMultiPolygon.readFeatures(geojson_kunnatOGRGeoJSONMultiPolygon, 
+var format_kunnat_pop2 = new ol.format.GeoJSON();
+var features_kunnat_pop2 = format_kunnat_pop2.readFeatures(geojson_kunnat_pop2, 
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'});
-var jsonSource_kunnatOGRGeoJSONMultiPolygon = new ol.source.Vector();
-jsonSource_kunnatOGRGeoJSONMultiPolygon.addFeatures(features_kunnatOGRGeoJSONMultiPolygon);var lyr_kunnatOGRGeoJSONMultiPolygon = new ol.layer.Vector({
-                source:jsonSource_kunnatOGRGeoJSONMultiPolygon, 
-                style: style_kunnatOGRGeoJSONMultiPolygon,
-                title: "kunnat OGRGeoJSON MultiPolygon"
+var jsonSource_kunnat_pop2 = new ol.source.Vector();
+jsonSource_kunnat_pop2.addFeatures(features_kunnat_pop2);var lyr_kunnat_pop2 = new ol.layer.Vector({
+                source:jsonSource_kunnat_pop2, 
+                style: style_kunnat_pop2,
+                title: "kunnat_pop2"
             });
 
-lyr_kunnatOGRGeoJSONMultiPolygon.setVisible(true);
-var layersList = [lyr_kunnatOGRGeoJSONMultiPolygon];
-lyr_kunnatOGRGeoJSONMultiPolygon.set('fieldAliases', {'nimi': 'nimi', });
-lyr_kunnatOGRGeoJSONMultiPolygon.set('fieldImages', {'nimi': 'TextEdit', });
-lyr_kunnatOGRGeoJSONMultiPolygon.set('fieldLabels', {'nimi': 'no label', });
+lyr_kunnat_pop2.setVisible(true);
+var layersList = [lyr_kunnat_pop2];
+lyr_kunnat_pop2.set('fieldAliases', {'nimi': 'nimi', 'Population': 'Population', });
+lyr_kunnat_pop2.set('fieldImages', {'nimi': 'TextEdit', 'Population': 'TextEdit', });
+lyr_kunnat_pop2.set('fieldLabels', {'nimi': 'no label', 'Population': 'inline label', });
