@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" type="text/css" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-heat.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/OSMBuildings-Leaflet.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="data/Finnishchampions0.js"></script>
+        <script src="data/Weightedaverage1.js"></script>
+        <script>
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:12, minZoom:5
+        }).fitBounds([[60.1918597622,15.8693974757],[64.4879945081,32.3049099521]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var feature_group = new L.featureGroup([]);
+        var bounds_group = new L.featureGroup([]);
+        var raster_group = new L.LayerGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.www.toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 12
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+            map.setMaxBounds(map.getBounds());
+        }
+        function geoJson2heat(geojson, weight) {
+          return geojson.features.map(function(feature) {
+            return [
+              feature.geometry.coordinates[1],
+              feature.geometry.coordinates[0],
+              feature.properties[weight]
+            ];
+          });
+        }
+        function pop_Finnishchampions0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Team</strong><br />' + (feature.properties['Team'] !== null ? Autolinker.link(String(feature.properties['Team'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Wins</th>\
+                        <td>' + (feature.properties['Wins'] !== null ? Autolinker.link(String(feature.properties['Wins'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Finnishchampions0(feature) {
+            if (feature.properties['Wins'] >= 1.000000 && feature.properties['Wins'] <= 3.541667 ) {
+                return {
+                pane: 'pane_Finnishchampions0',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,182,25,1.0)',
+            }
+            }
+            if (feature.properties['Wins'] >= 3.541667 && feature.properties['Wins'] <= 7.684725 ) {
+                return {
+                pane: 'pane_Finnishchampions0',
+                radius: 10.0,
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,182,25,1.0)',
+            }
+            }
+            if (feature.properties['Wins'] >= 7.684725 && feature.properties['Wins'] <= 11.827783 ) {
+                return {
+                pane: 'pane_Finnishchampions0',
+                radius: 14.0,
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,182,25,1.0)',
+            }
+            }
+            if (feature.properties['Wins'] >= 11.827783 && feature.properties['Wins'] <= 15.970841 ) {
+                return {
+                pane: 'pane_Finnishchampions0',
+                radius: 18.0,
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,182,25,1.0)',
+            }
+            }
+            if (feature.properties['Wins'] >= 15.970841 && feature.properties['Wins'] <= 20.000000 ) {
+                return {
+                pane: 'pane_Finnishchampions0',
+                radius: 22.0,
+                opacity: 1,
+                color: 'rgba(255,255,255,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,182,25,1.0)',
+            }
+            }
+        }
+        map.createPane('pane_Finnishchampions0');
+        map.getPane('pane_Finnishchampions0').style.zIndex = 600;
+        var layer_Finnishchampions0 = new L.geoJson(json_Finnishchampions0, {
+            pane: 'pane_Finnishchampions0',
+            onEachFeature: pop_Finnishchampions0,
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, style_Finnishchampions0(feature))
+            }
+        });
+        var cluster_Finnishchampions0 = new L.MarkerClusterGroup({showCoverageOnHover: false});
+        cluster_Finnishchampions0.addLayer(layer_Finnishchampions0);
+
+        bounds_group.addLayer(layer_Finnishchampions0);
+        cluster_Finnishchampions0.addTo(map);
+        function pop_Weightedaverage1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Average</strong><br />' + (feature.properties['Average'] !== null ? Autolinker.link(String(feature.properties['Average'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_Weightedaverage1() {
+            return {
+                pane: 'pane_Weightedaverage1',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fillOpacity: 1,
+                fillColor: 'rgba(191,165,111,1.0)',
+            }
+        }
+        map.createPane('pane_Weightedaverage1');
+        map.getPane('pane_Weightedaverage1').style.zIndex = 601;
+        var layer_Weightedaverage1 = new L.geoJson(json_Weightedaverage1, {
+            pane: 'pane_Weightedaverage1',
+            onEachFeature: pop_Weightedaverage1,
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, style_Weightedaverage1(feature))
+            }
+        });
+        bounds_group.addLayer(layer_Weightedaverage1);
+        feature_group.addLayer(layer_Weightedaverage1);
+        raster_group.addTo(map);
+        feature_group.addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
