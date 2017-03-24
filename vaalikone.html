@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css" />
+        <link rel="stylesheet" type="text/css" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css" />
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+        <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+        .icon {
+            position: absolute;
+            right: 35px;
+            top: 35px;
+            background-image: url(info.svg);
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            z-index: 1000;
+        }
+        .info {
+            position: absolute;
+            display: none;
+            right: 90px;
+            top: 35px;
+            padding: 10px;
+            z-index: 1000;
+            background-color: white;
+            border: solid black 1px;
+        }
+		small {
+		font-size: 80%;
+		}
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-heat.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/OSMBuildings-Leaflet.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="data/suvaitsevaisuus0.js"></script>
+        <script>
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:10, minZoom:3
+        }).fitBounds([[58.8455847491,13.3248938312],[69.6762160631,42.4238430297]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 10
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+        }
+        function geoJson2heat(geojson, weight) {
+          return geojson.features.map(function(feature) {
+            return [
+              feature.geometry.coordinates[1],
+              feature.geometry.coordinates[0],
+              feature.properties[weight]
+            ];
+          });
+        }
+        function pop_suvaitsevaisuus0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['kunta'] !== null ? Autolinker.link(String(feature.properties['kunta'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Suvaitsevaisuusindeksi</th>\
+                        <td>' + (feature.properties['suvaitseva'] !== null ? Autolinker.link(String(feature.properties['suvaitseva'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Vastanneita ehdokkaita</th>\
+                        <td>' + (feature.properties['vastanneit'] !== null ? Autolinker.link(String(feature.properties['vastanneit'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Vieraskielisiä 1000 asukasta kohti</th>\
+                        <td>' + (feature.properties['muumaa'] !== null ? Autolinker.link(String(feature.properties['muumaa'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent);
+        }
+
+        function style_suvaitsevaisuus0(feature) {
+            if (feature.properties['suvaitseva'] >= 1.950000 && feature.properties['suvaitseva'] <= 2.910000 ) {
+                return {
+                pane: 'pane_suvaitsevaisuus0',
+                opacity: 1,
+                color: 'rgba(74,74,74,0.75)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 1,
+                fillColor: 'rgba(63,0,125,0.75)',
+            }
+            }
+            if (feature.properties['suvaitseva'] >= 2.910000 && feature.properties['suvaitseva'] <= 3.130000 ) {
+                return {
+                pane: 'pane_suvaitsevaisuus0',
+                opacity: 1,
+                color: 'rgba(74,74,74,0.75)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 1,
+                fillColor: 'rgba(85,42,145,0.75)',
+            }
+            }
+            if (feature.properties['suvaitseva'] >= 3.130000 && feature.properties['suvaitseva'] <= 3.310000 ) {
+                return {
+                pane: 'pane_suvaitsevaisuus0',
+                opacity: 1,
+                color: 'rgba(74,74,74,0.75)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 1,
+                fillColor: 'rgba(102,73,159,0.75)',
+            }
+            }
+            if (feature.properties['suvaitseva'] >= 3.310000 && feature.properties['suvaitseva'] <= 3.480000 ) {
+                return {
+                pane: 'pane_suvaitsevaisuus0',
+                opacity: 1,
+                color: 'rgba(74,74,74,0.75)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 1,
+                fillColor: 'rgba(124,118,182,0.75)',
+            }
+            }
+            if (feature.properties['suvaitseva'] >= 3.480000 && feature.properties['suvaitseva'] <= 3.640000 ) {
+                return {
+                pane: 'pane_suvaitsevaisuus0',
+                opacity: 1,
+                color: 'rgba(74,74,74,0.75)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 1,
+                fillColor: 'rgba(150,146,196,0.75)',
+            }
+            }
+            if (feature.properties['suvaitseva'] >= 3.640000 && feature.properties['suvaitseva'] <= 3.760000 ) {
+                return {
+                pane: 'pane_suvaitsevaisuus0',
+                opacity: 1,
+                color: 'rgba(74,74,74,0.75)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 1,
+                fillColor: 'rgba(176,175,212,0.75)',
+            }
+            }
+            if (feature.properties['suvaitseva'] >= 3.760000 && feature.properties['suvaitseva'] <= 3.930000 ) {
+                return {
+                pane: 'pane_suvaitsevaisuus0',
+                opacity: 1,
+                color: 'rgba(74,74,74,0.75)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 1,
+                fillColor: 'rgba(201,202,227,0.75)',
+            }
+            }
+            if (feature.properties['suvaitseva'] >= 3.930000 && feature.properties['suvaitseva'] <= 4.070000 ) {
+                return {
+                pane: 'pane_suvaitsevaisuus0',
+                opacity: 1,
+                color: 'rgba(74,74,74,0.75)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 1,
+                fillColor: 'rgba(224,224,238,0.75)',
+            }
+            }
+            if (feature.properties['suvaitseva'] >= 4.070000 && feature.properties['suvaitseva'] <= 98.000000 ) {
+                return {
+                pane: 'pane_suvaitsevaisuus0',
+                opacity: 1,
+                color: 'rgba(74,74,74,0.75)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 1,
+                fillColor: 'rgba(241,239,247,0.75)',
+            }
+            }
+            if (feature.properties['suvaitseva'] >= 98.000000 && feature.properties['suvaitseva'] <= 99.000000 ) {
+                return {
+                pane: 'pane_suvaitsevaisuus0',
+                opacity: 1,
+                color: 'rgba(74,74,74,0.75)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fillOpacity: 1,
+                fillColor: 'rgba(230,230,231,0.75)',
+            }
+            }
+        }
+        map.createPane('pane_suvaitsevaisuus0');
+        map.getPane('pane_suvaitsevaisuus0').style.zIndex = 600;
+        map.getPane('pane_suvaitsevaisuus0').style['mix-blend-mode'] = 'normal';
+    var layer_suvaitsevaisuus0 = new L.geoJson(json_suvaitsevaisuus0, {
+        attribution: '<a href=""></a>',
+        pane: 'pane_suvaitsevaisuus0',
+        onEachFeature: pop_suvaitsevaisuus0,
+        style: style_suvaitsevaisuus0
+    });
+        bounds_group.addLayer(layer_suvaitsevaisuus0);
+        map.addLayer(layer_suvaitsevaisuus0);
+        setBounds();
+        </script>
+    </body>
+</html>
