@@ -19,45 +19,11 @@
             height: 100%;
             width: 100%;
         }
-        .icon {
-            position: absolute;
-            right: 35px;
-            top: 35px;
-            background-image: url(info.svg);
-            cursor: pointer;
-            width: 45px;
-            height: 45px;
-            z-index: 1000;
-        }
-        .info {
-            position: absolute;
-            display: none;
-            right: 90px;
-            top: 35px;
-            padding: 10px;
-            z-index: 1000;
-            background-color: white;
-            border: solid black 1px;
-        }
-		small {
-		font-size: 80%;
-		}
         </style>
         <title></title>
     </head>
     <body>
-	    <div class="icon"></div>
 
-    <div class="info">
-			<p style="font-family:monospace">Map represents the distribution of population in Finland.</p>
-			<p style="font-family:monospace">	A set of random points has been created within the building polygons  <br />
-												inside a postal code area based on the population of the area.  <br />
-												Thus all postal code areas have as many points as there are inhabitants. </p>
-			<p style="font-family:monospace">	By clicking the map you can see the number of inhabitants in that municipality. </p>
-			<small><p style="font-family:monospace">Made by <a href="https://twitter.com/tjukanov">Topi Tjukanov</a>, CGI <br />
-													You can contact me through topi.tjukanov(a)cgi.com. </p></small>
-	</div>
-	
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
@@ -262,12 +228,6 @@
         bounds_group.addLayer(layer_suvaitsevaisuus0);
         map.addLayer(layer_suvaitsevaisuus0);
         setBounds();
-		
-		        $(document).ready(function(){
-            $(".icon").click(function() {
-                $(".info").toggle();
-            });
-        });
         </script>
     </body>
 </html>
