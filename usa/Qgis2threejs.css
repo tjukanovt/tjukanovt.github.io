@@ -1,0 +1,216 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+#webgl {
+  /* sky-like */
+  background: linear-gradient(to bottom, #98c8f6 0%,#cbebff 40%,#f0f9ff 100%);
+}
+
+#footer {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+}
+
+#infobtn {
+  color: white;
+  background: rgba(152, 200, 246, 0.8);
+  border: solid 4px rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 0 0 2px rgba(152, 200, 246, 0.3);
+  width: 24px;
+  height: 24px;
+  text-align: center;
+  font-family: serif;
+  font-weight: bold;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* popup */
+#popup {
+  /* background: rgba(255, 255, 255, 0);*/
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  max-width: 480px;
+  min-width: 300px;
+  z-index: 9999;
+  border: solid gray;
+  border-width: 1px 2px 2px;
+  border-radius: 3px;
+}
+
+#popupbar {
+  background: dimgray;
+  color: white;
+  padding-left: 4px;
+  height: 18px;
+}
+
+#closebtn {
+  color: rgb(220, 220, 220);
+  background: gray;
+  border: 1px solid darkgray;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  width: 16px;
+  height: 16px;
+  text-align: center;
+  float: right;
+  cursor: pointer;
+}
+
+#popupbody {
+  background-color: white;
+  padding: 2px 5px 2px;
+  max-height: 500px;
+  overflow: auto;
+}
+
+/* identify result */
+#popupbody table {
+  margin-top: 5px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+#popupbody table caption {
+  background-color: gray;
+  color: white;
+  font-size: small;
+  padding: 1px;
+  padding-left: 6px;
+  text-align: left;
+}
+
+#popupbody table td {
+  padding-left: 5px;
+}
+
+table.layer tr {
+  background-color: #eeeeee;
+}
+
+table.coords tr {
+  background-color: #eeeeee;
+}
+
+table.attrs tr:nth-child(odd) {
+  background-color: #eeeeee;
+}
+
+
+table.attrs tr td:first-child {
+  width: 40%;
+}
+
+/* pageinfo */
+#pageinfo {
+  font-size: small;
+}
+
+#pageinfo h1 {
+  background-color: gray;
+  color: white;
+  font-size: small;
+  font-weight: normal;
+  margin-top: 5px;
+  margin-bottom: 3px;
+  padding: 1px;
+  padding-left: 6px;
+}
+
+#urlbox {
+  width: 100%;
+}
+
+#usage, #about {
+  margin-left: 5px;
+}
+
+#usage tr:nth-child(odd) {
+  background-color: #eeeeee;
+}
+
+#usage td.star {
+  font-weight: bold;
+}
+
+#about ul {
+  margin: 5px;
+  margin-left: 20px;
+  padding: 0px;
+}
+
+.license {
+  font-size: xx-small;
+}
+
+.download-link {
+  display: block;
+  border: 1px solid darkgray;
+  background: lightgray;
+  color: black;
+  font-size: large;
+  margin: 10px 50px 10px;
+  padding: 8px;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* print dialog */
+.print div {
+  padding: 5px;
+}
+
+.print label {
+  margin-left: 5px;
+}
+
+.print input[type="text"] {
+  width: 40px;
+  border: 1px solid lightgray;
+  background: #F6F6F6;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.print input[type="checkbox"] {
+  margin-left: 15px;
+}
+
+.print input[type="submit"] {
+  display: none;
+}
+
+.print .buttonbox {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.print .buttonbox span {
+  border: 1px solid darkgray;
+  background: lightgray;
+  margin: 0px 5px 0px;
+  padding: 5px 10px 5px;
+  cursor: pointer;
+}
+
+/* label */
+.label {
+  padding: 2px;
+  text-shadow: -1px -1px #FFF, 0px -1px #FFF, 1px -1px #FFF, -1px 0px #FFF, 1px 0px #FFF, -1px 1px #FFF, 0px 1px #FFF, 1px 1px #FFF;
+  position: absolute;
+  pointer-events: none;
+}
+
+.print-label {
+  /* these 2 properties are copied to canvas 2D context in renderLabels function of Qgis2threejs.js */
+  color: black;
+  font: normal medium sans-serif;
+}
