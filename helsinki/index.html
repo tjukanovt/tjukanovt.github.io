@@ -16,7 +16,7 @@
             margin: 0;
         }
         </style>
-        <title>Helsinki region buildings by age</title>
+		<title>Helsinki region buildings by age</title>
     </head>
     <body>
         <div id="map">
@@ -62,7 +62,6 @@
             if (bounds_group.getLayers().length) {
                 map.fitBounds(bounds_group.getBounds());
             }
-            map.setMaxBounds(map.getBounds());
         }
         function pop_Buildingagegrid_0(feature, layer) {
             layer.on({
@@ -75,15 +74,13 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <th scope="row">Avg.</th>\
-                        <td>' + (feature.properties['Avg.'] !== null ? Autolinker.link(String(feature.properties['Avg.'])) : '') + '</td>\
+                        <td colspan="2"><strong>Avg. year</strong><br />' + (feature.properties['Avg.'] !== null ? Autolinker.link(String(feature.properties['Avg.'])) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Count</th>\
-                        <td>' + (feature.properties['Count'] !== null ? Autolinker.link(String(feature.properties['Count'])) : '') + '</td>\
+                        <td colspan="2"><strong>No. of buildings</strong><br />' + (feature.properties['Count'] !== null ? Autolinker.link(String(feature.properties['Count'])) : '') + '</td>\
                     </tr>\
                 </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
+            layer.bindPopup(popupContent, {maxWidht: 800});
         }
 
         function style_Buildingagegrid_0_0(feature) {
