@@ -39,7 +39,7 @@
         <script>
         var map = L.map('map', {
             zoomControl:true, maxZoom:10, minZoom:2
-        }).fitBounds([[-72.1513016734479,-178.66908232725598],[85.16862211180592,173.4284026444973]]);
+        }).fitBounds([[-85,-180],[85,180]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
