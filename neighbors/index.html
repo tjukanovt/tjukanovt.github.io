@@ -36,16 +36,19 @@
 <script src="js/nouislider.min.js"></script>
 <script src="js/wNumb.js"></script>
         <script src="data/neighbors_1.js"></script>
+        <script src="data/borders_2.js"></script>
         <script>
         var map = L.map('map', {
             zoomControl:true, maxZoom:10, minZoom:2
-        }).fitBounds([[-85,-180],[85,180]]);
+        })
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
-            map.setMaxBounds(map.getBounds());
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
         }
         map.createPane('pane_StamenToner_0');
         map.getPane('pane_StamenToner_0').style.zIndex = 400;
@@ -3090,6 +3093,38 @@
         });
         bounds_group.addLayer(layer_neighbors_1);
         map.addLayer(layer_neighbors_1);
+        function pop_borders_2(feature, layer) {
+        }
+
+        function style_borders_2_0() {
+            return {
+                pane: 'pane_borders_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '10,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(114,155,111,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_borders_2');
+        map.getPane('pane_borders_2').style.zIndex = 402;
+        map.getPane('pane_borders_2').style['mix-blend-mode'] = 'normal';
+        var layer_borders_2 = new L.geoJson(json_borders_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_borders_2',
+            layerName: 'layer_borders_2',
+            pane: 'pane_borders_2',
+            onEachFeature: pop_borders_2,
+            style: style_borders_2_0,
+        });
+        bounds_group.addLayer(layer_borders_2);
+        map.addLayer(layer_borders_2);
         setBounds();
         var mapDiv = document.getElementById('map');
         var row = document.createElement('div');
@@ -3110,7 +3145,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"This is a part of:": "str","Closest foreign neighbor is:": "str"};
+        var Filters = {"Closest foreign neighbor is:": "str","This is a part of:": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -3200,6 +3235,234 @@
           }
           })
         }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Closestforeignneighboris = document.createElement('div');
+            div_Closestforeignneighboris.id = "div_Closestforeignneighboris";
+            div_Closestforeignneighboris.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Closestforeignneighboris);
+            sel_Closestforeignneighboris = document.createElement('select');
+            sel_Closestforeignneighboris.multiple = true;
+            sel_Closestforeignneighboris.size = 10;
+            sel_Closestforeignneighboris.id = "sel_Closestforeignneighboris";
+            var Closestforeignneighboris_options_str = "<option value='' unselected></option>";
+            sel_Closestforeignneighboris.onchange = function(){filterFunc()};
+            Closestforeignneighboris_options_str  += '<option value="Afghanistan">Afghanistan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Albania">Albania</option>';
+            Closestforeignneighboris_options_str  += '<option value="Algeria">Algeria</option>';
+            Closestforeignneighboris_options_str  += '<option value="Andorra">Andorra</option>';
+            Closestforeignneighboris_options_str  += '<option value="Angola">Angola</option>';
+            Closestforeignneighboris_options_str  += '<option value="Antigua and Barbuda">Antigua and Barbuda</option>';
+            Closestforeignneighboris_options_str  += '<option value="Argentina">Argentina</option>';
+            Closestforeignneighboris_options_str  += '<option value="Armenia">Armenia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Australia">Australia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Austria">Austria</option>';
+            Closestforeignneighboris_options_str  += '<option value="Azerbaijan">Azerbaijan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Bahrain">Bahrain</option>';
+            Closestforeignneighboris_options_str  += '<option value="Bangladesh">Bangladesh</option>';
+            Closestforeignneighboris_options_str  += '<option value="Belarus">Belarus</option>';
+            Closestforeignneighboris_options_str  += '<option value="Belgium">Belgium</option>';
+            Closestforeignneighboris_options_str  += '<option value="Belize">Belize</option>';
+            Closestforeignneighboris_options_str  += '<option value="Benin">Benin</option>';
+            Closestforeignneighboris_options_str  += '<option value="Bhutan">Bhutan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Bolivia">Bolivia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>';
+            Closestforeignneighboris_options_str  += '<option value="Botswana">Botswana</option>';
+            Closestforeignneighboris_options_str  += '<option value="Brazil">Brazil</option>';
+            Closestforeignneighboris_options_str  += '<option value="Brunei">Brunei</option>';
+            Closestforeignneighboris_options_str  += '<option value="Bulgaria">Bulgaria</option>';
+            Closestforeignneighboris_options_str  += '<option value="Burkina Faso">Burkina Faso</option>';
+            Closestforeignneighboris_options_str  += '<option value="Burundi">Burundi</option>';
+            Closestforeignneighboris_options_str  += '<option value="Cambodia">Cambodia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Cameroon">Cameroon</option>';
+            Closestforeignneighboris_options_str  += '<option value="Canada">Canada</option>';
+            Closestforeignneighboris_options_str  += '<option value="Central African Republic">Central African Republic</option>';
+            Closestforeignneighboris_options_str  += '<option value="Chad">Chad</option>';
+            Closestforeignneighboris_options_str  += '<option value="Chile">Chile</option>';
+            Closestforeignneighboris_options_str  += '<option value="China">China</option>';
+            Closestforeignneighboris_options_str  += '<option value="Colombia">Colombia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Comoros">Comoros</option>';
+            Closestforeignneighboris_options_str  += '<option value="Costa Rica">Costa Rica</option>';
+            Closestforeignneighboris_options_str  += '<option value="Croatia">Croatia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Cuba">Cuba</option>';
+            Closestforeignneighboris_options_str  += '<option value="Cyprus">Cyprus</option>';
+            Closestforeignneighboris_options_str  += '<option value="Cyprus No Mans Area">Cyprus No Mans Area</option>';
+            Closestforeignneighboris_options_str  += '<option value="Czechia">Czechia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>';
+            Closestforeignneighboris_options_str  += '<option value="Denmark">Denmark</option>';
+            Closestforeignneighboris_options_str  += '<option value="Djibouti">Djibouti</option>';
+            Closestforeignneighboris_options_str  += '<option value="Dominica">Dominica</option>';
+            Closestforeignneighboris_options_str  += '<option value="Dominican Republic">Dominican Republic</option>';
+            Closestforeignneighboris_options_str  += '<option value="East Timor">East Timor</option>';
+            Closestforeignneighboris_options_str  += '<option value="Ecuador">Ecuador</option>';
+            Closestforeignneighboris_options_str  += '<option value="Egypt">Egypt</option>';
+            Closestforeignneighboris_options_str  += '<option value="El Salvador">El Salvador</option>';
+            Closestforeignneighboris_options_str  += '<option value="Equatorial Guinea">Equatorial Guinea</option>';
+            Closestforeignneighboris_options_str  += '<option value="Eritrea">Eritrea</option>';
+            Closestforeignneighboris_options_str  += '<option value="Estonia">Estonia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Ethiopia">Ethiopia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Federated States of Micronesia">Federated States of Micronesia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Fiji">Fiji</option>';
+            Closestforeignneighboris_options_str  += '<option value="Finland">Finland</option>';
+            Closestforeignneighboris_options_str  += '<option value="France">France</option>';
+            Closestforeignneighboris_options_str  += '<option value="Gabon">Gabon</option>';
+            Closestforeignneighboris_options_str  += '<option value="Gambia">Gambia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Georgia">Georgia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Germany">Germany</option>';
+            Closestforeignneighboris_options_str  += '<option value="Ghana">Ghana</option>';
+            Closestforeignneighboris_options_str  += '<option value="Greece">Greece</option>';
+            Closestforeignneighboris_options_str  += '<option value="Grenada">Grenada</option>';
+            Closestforeignneighboris_options_str  += '<option value="Guatemala">Guatemala</option>';
+            Closestforeignneighboris_options_str  += '<option value="Guinea">Guinea</option>';
+            Closestforeignneighboris_options_str  += '<option value="Guinea-Bissau">Guinea-Bissau</option>';
+            Closestforeignneighboris_options_str  += '<option value="Guyana">Guyana</option>';
+            Closestforeignneighboris_options_str  += '<option value="Haiti">Haiti</option>';
+            Closestforeignneighboris_options_str  += '<option value="Honduras">Honduras</option>';
+            Closestforeignneighboris_options_str  += '<option value="Hungary">Hungary</option>';
+            Closestforeignneighboris_options_str  += '<option value="Iceland">Iceland</option>';
+            Closestforeignneighboris_options_str  += '<option value="India">India</option>';
+            Closestforeignneighboris_options_str  += '<option value="Indonesia">Indonesia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Iran">Iran</option>';
+            Closestforeignneighboris_options_str  += '<option value="Iraq">Iraq</option>';
+            Closestforeignneighboris_options_str  += '<option value="Ireland">Ireland</option>';
+            Closestforeignneighboris_options_str  += '<option value="Israel">Israel</option>';
+            Closestforeignneighboris_options_str  += '<option value="Italy">Italy</option>';
+            Closestforeignneighboris_options_str  += '<option value="Ivory Coast">Ivory Coast</option>';
+            Closestforeignneighboris_options_str  += '<option value="Jamaica">Jamaica</option>';
+            Closestforeignneighboris_options_str  += '<option value="Japan">Japan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Jordan">Jordan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Kashmir">Kashmir</option>';
+            Closestforeignneighboris_options_str  += '<option value="Kazakhstan">Kazakhstan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Kenya">Kenya</option>';
+            Closestforeignneighboris_options_str  += '<option value="Kiribati">Kiribati</option>';
+            Closestforeignneighboris_options_str  += '<option value="Kosovo">Kosovo</option>';
+            Closestforeignneighboris_options_str  += '<option value="Kuwait">Kuwait</option>';
+            Closestforeignneighboris_options_str  += '<option value="Kyrgyzstan">Kyrgyzstan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Laos">Laos</option>';
+            Closestforeignneighboris_options_str  += '<option value="Latvia">Latvia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Lebanon">Lebanon</option>';
+            Closestforeignneighboris_options_str  += '<option value="Lesotho">Lesotho</option>';
+            Closestforeignneighboris_options_str  += '<option value="Liberia">Liberia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Libya">Libya</option>';
+            Closestforeignneighboris_options_str  += '<option value="Liechtenstein">Liechtenstein</option>';
+            Closestforeignneighboris_options_str  += '<option value="Lithuania">Lithuania</option>';
+            Closestforeignneighboris_options_str  += '<option value="Luxembourg">Luxembourg</option>';
+            Closestforeignneighboris_options_str  += '<option value="Macedonia">Macedonia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Madagascar">Madagascar</option>';
+            Closestforeignneighboris_options_str  += '<option value="Malawi">Malawi</option>';
+            Closestforeignneighboris_options_str  += '<option value="Malaysia">Malaysia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Maldives">Maldives</option>';
+            Closestforeignneighboris_options_str  += '<option value="Mali">Mali</option>';
+            Closestforeignneighboris_options_str  += '<option value="Malta">Malta</option>';
+            Closestforeignneighboris_options_str  += '<option value="Marshall Islands">Marshall Islands</option>';
+            Closestforeignneighboris_options_str  += '<option value="Mauritania">Mauritania</option>';
+            Closestforeignneighboris_options_str  += '<option value="Mauritius">Mauritius</option>';
+            Closestforeignneighboris_options_str  += '<option value="Mexico">Mexico</option>';
+            Closestforeignneighboris_options_str  += '<option value="Moldova">Moldova</option>';
+            Closestforeignneighboris_options_str  += '<option value="Monaco">Monaco</option>';
+            Closestforeignneighboris_options_str  += '<option value="Mongolia">Mongolia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Montenegro">Montenegro</option>';
+            Closestforeignneighboris_options_str  += '<option value="Morocco">Morocco</option>';
+            Closestforeignneighboris_options_str  += '<option value="Mozambique">Mozambique</option>';
+            Closestforeignneighboris_options_str  += '<option value="Myanmar">Myanmar</option>';
+            Closestforeignneighboris_options_str  += '<option value="Namibia">Namibia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Nauru">Nauru</option>';
+            Closestforeignneighboris_options_str  += '<option value="Nepal">Nepal</option>';
+            Closestforeignneighboris_options_str  += '<option value="Netherlands">Netherlands</option>';
+            Closestforeignneighboris_options_str  += '<option value="New Zealand">New Zealand</option>';
+            Closestforeignneighboris_options_str  += '<option value="Nicaragua">Nicaragua</option>';
+            Closestforeignneighboris_options_str  += '<option value="Niger">Niger</option>';
+            Closestforeignneighboris_options_str  += '<option value="Nigeria">Nigeria</option>';
+            Closestforeignneighboris_options_str  += '<option value="North Korea">North Korea</option>';
+            Closestforeignneighboris_options_str  += '<option value="Northern Cyprus">Northern Cyprus</option>';
+            Closestforeignneighboris_options_str  += '<option value="Norway">Norway</option>';
+            Closestforeignneighboris_options_str  += '<option value="Oman">Oman</option>';
+            Closestforeignneighboris_options_str  += '<option value="Pakistan">Pakistan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Palau">Palau</option>';
+            Closestforeignneighboris_options_str  += '<option value="Panama">Panama</option>';
+            Closestforeignneighboris_options_str  += '<option value="Papua New Guinea">Papua New Guinea</option>';
+            Closestforeignneighboris_options_str  += '<option value="Paraguay">Paraguay</option>';
+            Closestforeignneighboris_options_str  += '<option value="Peru">Peru</option>';
+            Closestforeignneighboris_options_str  += '<option value="Philippines">Philippines</option>';
+            Closestforeignneighboris_options_str  += '<option value="Poland">Poland</option>';
+            Closestforeignneighboris_options_str  += '<option value="Portugal">Portugal</option>';
+            Closestforeignneighboris_options_str  += '<option value="Qatar">Qatar</option>';
+            Closestforeignneighboris_options_str  += '<option value="Republic of Serbia">Republic of Serbia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Republic of the Congo">Republic of the Congo</option>';
+            Closestforeignneighboris_options_str  += '<option value="Romania">Romania</option>';
+            Closestforeignneighboris_options_str  += '<option value="Russia">Russia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Rwanda">Rwanda</option>';
+            Closestforeignneighboris_options_str  += '<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>';
+            Closestforeignneighboris_options_str  += '<option value="Saint Lucia">Saint Lucia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>';
+            Closestforeignneighboris_options_str  += '<option value="Samoa">Samoa</option>';
+            Closestforeignneighboris_options_str  += '<option value="San Marino">San Marino</option>';
+            Closestforeignneighboris_options_str  += '<option value="Saudi Arabia">Saudi Arabia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Scarborough Reef">Scarborough Reef</option>';
+            Closestforeignneighboris_options_str  += '<option value="Senegal">Senegal</option>';
+            Closestforeignneighboris_options_str  += '<option value="Sierra Leone">Sierra Leone</option>';
+            Closestforeignneighboris_options_str  += '<option value="Singapore">Singapore</option>';
+            Closestforeignneighboris_options_str  += '<option value="Slovakia">Slovakia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Slovenia">Slovenia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Solomon Islands">Solomon Islands</option>';
+            Closestforeignneighboris_options_str  += '<option value="Somalia">Somalia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Somaliland">Somaliland</option>';
+            Closestforeignneighboris_options_str  += '<option value="South Africa">South Africa</option>';
+            Closestforeignneighboris_options_str  += '<option value="South Korea">South Korea</option>';
+            Closestforeignneighboris_options_str  += '<option value="South Sudan">South Sudan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Spain">Spain</option>';
+            Closestforeignneighboris_options_str  += '<option value="Spratly Islands">Spratly Islands</option>';
+            Closestforeignneighboris_options_str  += '<option value="Sri Lanka">Sri Lanka</option>';
+            Closestforeignneighboris_options_str  += '<option value="Sudan">Sudan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Suriname">Suriname</option>';
+            Closestforeignneighboris_options_str  += '<option value="Sweden">Sweden</option>';
+            Closestforeignneighboris_options_str  += '<option value="Switzerland">Switzerland</option>';
+            Closestforeignneighboris_options_str  += '<option value="Syria">Syria</option>';
+            Closestforeignneighboris_options_str  += '<option value="Taiwan">Taiwan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Tajikistan">Tajikistan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Thailand">Thailand</option>';
+            Closestforeignneighboris_options_str  += '<option value="The Bahamas">The Bahamas</option>';
+            Closestforeignneighboris_options_str  += '<option value="Togo">Togo</option>';
+            Closestforeignneighboris_options_str  += '<option value="Tonga">Tonga</option>';
+            Closestforeignneighboris_options_str  += '<option value="Trinidad and Tobago">Trinidad and Tobago</option>';
+            Closestforeignneighboris_options_str  += '<option value="Tunisia">Tunisia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Turkey">Turkey</option>';
+            Closestforeignneighboris_options_str  += '<option value="Turkmenistan">Turkmenistan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Tuvalu">Tuvalu</option>';
+            Closestforeignneighboris_options_str  += '<option value="Uganda">Uganda</option>';
+            Closestforeignneighboris_options_str  += '<option value="Ukraine">Ukraine</option>';
+            Closestforeignneighboris_options_str  += '<option value="United Arab Emirates">United Arab Emirates</option>';
+            Closestforeignneighboris_options_str  += '<option value="United Kingdom">United Kingdom</option>';
+            Closestforeignneighboris_options_str  += '<option value="United Republic of Tanzania">United Republic of Tanzania</option>';
+            Closestforeignneighboris_options_str  += '<option value="United States of America">United States of America</option>';
+            Closestforeignneighboris_options_str  += '<option value="Uruguay">Uruguay</option>';
+            Closestforeignneighboris_options_str  += '<option value="Uzbekistan">Uzbekistan</option>';
+            Closestforeignneighboris_options_str  += '<option value="Vanuatu">Vanuatu</option>';
+            Closestforeignneighboris_options_str  += '<option value="Vatican">Vatican</option>';
+            Closestforeignneighboris_options_str  += '<option value="Venezuela">Venezuela</option>';
+            Closestforeignneighboris_options_str  += '<option value="Vietnam">Vietnam</option>';
+            Closestforeignneighboris_options_str  += '<option value="Western Sahara">Western Sahara</option>';
+            Closestforeignneighboris_options_str  += '<option value="Yemen">Yemen</option>';
+            Closestforeignneighboris_options_str  += '<option value="Zambia">Zambia</option>';
+            Closestforeignneighboris_options_str  += '<option value="Zimbabwe">Zimbabwe</option>';
+            Closestforeignneighboris_options_str  += '<option value="eSwatini">eSwatini</option>';
+            sel_Closestforeignneighboris.innerHTML = Closestforeignneighboris_options_str;
+            div_Closestforeignneighboris.appendChild(sel_Closestforeignneighboris);
+            var lab_Closestforeignneighboris = document.createElement('div');
+            lab_Closestforeignneighboris.innerHTML = 'Closest foreign neighbor is:';
+            lab_Closestforeignneighboris.className = 'filterlabel';
+            div_Closestforeignneighboris.appendChild(lab_Closestforeignneighboris);
+            var reset_Closestforeignneighboris = document.createElement('div');
+            reset_Closestforeignneighboris.innerHTML = 'clear filter';
+            reset_Closestforeignneighboris.className = 'filterlabel';
+            reset_Closestforeignneighboris.onclick = function() {
+                var options = document.getElementById("sel_Closestforeignneighboris").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Closestforeignneighboris.appendChild(reset_Closestforeignneighboris);
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
             var div_Thisisapartof = document.createElement('div');
@@ -3430,234 +3693,6 @@
                 filterFunc();
             };
             div_Thisisapartof.appendChild(reset_Thisisapartof);
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_Closestforeignneighboris = document.createElement('div');
-            div_Closestforeignneighboris.id = "div_Closestforeignneighboris";
-            div_Closestforeignneighboris.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Closestforeignneighboris);
-            sel_Closestforeignneighboris = document.createElement('select');
-            sel_Closestforeignneighboris.multiple = true;
-            sel_Closestforeignneighboris.size = 10;
-            sel_Closestforeignneighboris.id = "sel_Closestforeignneighboris";
-            var Closestforeignneighboris_options_str = "<option value='' unselected></option>";
-            sel_Closestforeignneighboris.onchange = function(){filterFunc()};
-            Closestforeignneighboris_options_str  += '<option value="Afghanistan">Afghanistan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Albania">Albania</option>';
-            Closestforeignneighboris_options_str  += '<option value="Algeria">Algeria</option>';
-            Closestforeignneighboris_options_str  += '<option value="Andorra">Andorra</option>';
-            Closestforeignneighboris_options_str  += '<option value="Angola">Angola</option>';
-            Closestforeignneighboris_options_str  += '<option value="Antigua and Barbuda">Antigua and Barbuda</option>';
-            Closestforeignneighboris_options_str  += '<option value="Argentina">Argentina</option>';
-            Closestforeignneighboris_options_str  += '<option value="Armenia">Armenia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Australia">Australia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Austria">Austria</option>';
-            Closestforeignneighboris_options_str  += '<option value="Azerbaijan">Azerbaijan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Bahrain">Bahrain</option>';
-            Closestforeignneighboris_options_str  += '<option value="Bangladesh">Bangladesh</option>';
-            Closestforeignneighboris_options_str  += '<option value="Belarus">Belarus</option>';
-            Closestforeignneighboris_options_str  += '<option value="Belgium">Belgium</option>';
-            Closestforeignneighboris_options_str  += '<option value="Belize">Belize</option>';
-            Closestforeignneighboris_options_str  += '<option value="Benin">Benin</option>';
-            Closestforeignneighboris_options_str  += '<option value="Bhutan">Bhutan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Bolivia">Bolivia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>';
-            Closestforeignneighboris_options_str  += '<option value="Botswana">Botswana</option>';
-            Closestforeignneighboris_options_str  += '<option value="Brazil">Brazil</option>';
-            Closestforeignneighboris_options_str  += '<option value="Brunei">Brunei</option>';
-            Closestforeignneighboris_options_str  += '<option value="Bulgaria">Bulgaria</option>';
-            Closestforeignneighboris_options_str  += '<option value="Burkina Faso">Burkina Faso</option>';
-            Closestforeignneighboris_options_str  += '<option value="Burundi">Burundi</option>';
-            Closestforeignneighboris_options_str  += '<option value="Cambodia">Cambodia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Cameroon">Cameroon</option>';
-            Closestforeignneighboris_options_str  += '<option value="Canada">Canada</option>';
-            Closestforeignneighboris_options_str  += '<option value="Central African Republic">Central African Republic</option>';
-            Closestforeignneighboris_options_str  += '<option value="Chad">Chad</option>';
-            Closestforeignneighboris_options_str  += '<option value="Chile">Chile</option>';
-            Closestforeignneighboris_options_str  += '<option value="China">China</option>';
-            Closestforeignneighboris_options_str  += '<option value="Colombia">Colombia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Comoros">Comoros</option>';
-            Closestforeignneighboris_options_str  += '<option value="Costa Rica">Costa Rica</option>';
-            Closestforeignneighboris_options_str  += '<option value="Croatia">Croatia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Cuba">Cuba</option>';
-            Closestforeignneighboris_options_str  += '<option value="Cyprus">Cyprus</option>';
-            Closestforeignneighboris_options_str  += '<option value="Cyprus No Mans Area">Cyprus No Mans Area</option>';
-            Closestforeignneighboris_options_str  += '<option value="Czechia">Czechia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>';
-            Closestforeignneighboris_options_str  += '<option value="Denmark">Denmark</option>';
-            Closestforeignneighboris_options_str  += '<option value="Djibouti">Djibouti</option>';
-            Closestforeignneighboris_options_str  += '<option value="Dominica">Dominica</option>';
-            Closestforeignneighboris_options_str  += '<option value="Dominican Republic">Dominican Republic</option>';
-            Closestforeignneighboris_options_str  += '<option value="East Timor">East Timor</option>';
-            Closestforeignneighboris_options_str  += '<option value="Ecuador">Ecuador</option>';
-            Closestforeignneighboris_options_str  += '<option value="Egypt">Egypt</option>';
-            Closestforeignneighboris_options_str  += '<option value="El Salvador">El Salvador</option>';
-            Closestforeignneighboris_options_str  += '<option value="Equatorial Guinea">Equatorial Guinea</option>';
-            Closestforeignneighboris_options_str  += '<option value="Eritrea">Eritrea</option>';
-            Closestforeignneighboris_options_str  += '<option value="Estonia">Estonia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Ethiopia">Ethiopia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Federated States of Micronesia">Federated States of Micronesia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Fiji">Fiji</option>';
-            Closestforeignneighboris_options_str  += '<option value="Finland">Finland</option>';
-            Closestforeignneighboris_options_str  += '<option value="France">France</option>';
-            Closestforeignneighboris_options_str  += '<option value="Gabon">Gabon</option>';
-            Closestforeignneighboris_options_str  += '<option value="Gambia">Gambia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Georgia">Georgia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Germany">Germany</option>';
-            Closestforeignneighboris_options_str  += '<option value="Ghana">Ghana</option>';
-            Closestforeignneighboris_options_str  += '<option value="Greece">Greece</option>';
-            Closestforeignneighboris_options_str  += '<option value="Grenada">Grenada</option>';
-            Closestforeignneighboris_options_str  += '<option value="Guatemala">Guatemala</option>';
-            Closestforeignneighboris_options_str  += '<option value="Guinea">Guinea</option>';
-            Closestforeignneighboris_options_str  += '<option value="Guinea-Bissau">Guinea-Bissau</option>';
-            Closestforeignneighboris_options_str  += '<option value="Guyana">Guyana</option>';
-            Closestforeignneighboris_options_str  += '<option value="Haiti">Haiti</option>';
-            Closestforeignneighboris_options_str  += '<option value="Honduras">Honduras</option>';
-            Closestforeignneighboris_options_str  += '<option value="Hungary">Hungary</option>';
-            Closestforeignneighboris_options_str  += '<option value="Iceland">Iceland</option>';
-            Closestforeignneighboris_options_str  += '<option value="India">India</option>';
-            Closestforeignneighboris_options_str  += '<option value="Indonesia">Indonesia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Iran">Iran</option>';
-            Closestforeignneighboris_options_str  += '<option value="Iraq">Iraq</option>';
-            Closestforeignneighboris_options_str  += '<option value="Ireland">Ireland</option>';
-            Closestforeignneighboris_options_str  += '<option value="Israel">Israel</option>';
-            Closestforeignneighboris_options_str  += '<option value="Italy">Italy</option>';
-            Closestforeignneighboris_options_str  += '<option value="Ivory Coast">Ivory Coast</option>';
-            Closestforeignneighboris_options_str  += '<option value="Jamaica">Jamaica</option>';
-            Closestforeignneighboris_options_str  += '<option value="Japan">Japan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Jordan">Jordan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Kashmir">Kashmir</option>';
-            Closestforeignneighboris_options_str  += '<option value="Kazakhstan">Kazakhstan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Kenya">Kenya</option>';
-            Closestforeignneighboris_options_str  += '<option value="Kiribati">Kiribati</option>';
-            Closestforeignneighboris_options_str  += '<option value="Kosovo">Kosovo</option>';
-            Closestforeignneighboris_options_str  += '<option value="Kuwait">Kuwait</option>';
-            Closestforeignneighboris_options_str  += '<option value="Kyrgyzstan">Kyrgyzstan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Laos">Laos</option>';
-            Closestforeignneighboris_options_str  += '<option value="Latvia">Latvia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Lebanon">Lebanon</option>';
-            Closestforeignneighboris_options_str  += '<option value="Lesotho">Lesotho</option>';
-            Closestforeignneighboris_options_str  += '<option value="Liberia">Liberia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Libya">Libya</option>';
-            Closestforeignneighboris_options_str  += '<option value="Liechtenstein">Liechtenstein</option>';
-            Closestforeignneighboris_options_str  += '<option value="Lithuania">Lithuania</option>';
-            Closestforeignneighboris_options_str  += '<option value="Luxembourg">Luxembourg</option>';
-            Closestforeignneighboris_options_str  += '<option value="Macedonia">Macedonia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Madagascar">Madagascar</option>';
-            Closestforeignneighboris_options_str  += '<option value="Malawi">Malawi</option>';
-            Closestforeignneighboris_options_str  += '<option value="Malaysia">Malaysia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Maldives">Maldives</option>';
-            Closestforeignneighboris_options_str  += '<option value="Mali">Mali</option>';
-            Closestforeignneighboris_options_str  += '<option value="Malta">Malta</option>';
-            Closestforeignneighboris_options_str  += '<option value="Marshall Islands">Marshall Islands</option>';
-            Closestforeignneighboris_options_str  += '<option value="Mauritania">Mauritania</option>';
-            Closestforeignneighboris_options_str  += '<option value="Mauritius">Mauritius</option>';
-            Closestforeignneighboris_options_str  += '<option value="Mexico">Mexico</option>';
-            Closestforeignneighboris_options_str  += '<option value="Moldova">Moldova</option>';
-            Closestforeignneighboris_options_str  += '<option value="Monaco">Monaco</option>';
-            Closestforeignneighboris_options_str  += '<option value="Mongolia">Mongolia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Montenegro">Montenegro</option>';
-            Closestforeignneighboris_options_str  += '<option value="Morocco">Morocco</option>';
-            Closestforeignneighboris_options_str  += '<option value="Mozambique">Mozambique</option>';
-            Closestforeignneighboris_options_str  += '<option value="Myanmar">Myanmar</option>';
-            Closestforeignneighboris_options_str  += '<option value="Namibia">Namibia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Nauru">Nauru</option>';
-            Closestforeignneighboris_options_str  += '<option value="Nepal">Nepal</option>';
-            Closestforeignneighboris_options_str  += '<option value="Netherlands">Netherlands</option>';
-            Closestforeignneighboris_options_str  += '<option value="New Zealand">New Zealand</option>';
-            Closestforeignneighboris_options_str  += '<option value="Nicaragua">Nicaragua</option>';
-            Closestforeignneighboris_options_str  += '<option value="Niger">Niger</option>';
-            Closestforeignneighboris_options_str  += '<option value="Nigeria">Nigeria</option>';
-            Closestforeignneighboris_options_str  += '<option value="North Korea">North Korea</option>';
-            Closestforeignneighboris_options_str  += '<option value="Northern Cyprus">Northern Cyprus</option>';
-            Closestforeignneighboris_options_str  += '<option value="Norway">Norway</option>';
-            Closestforeignneighboris_options_str  += '<option value="Oman">Oman</option>';
-            Closestforeignneighboris_options_str  += '<option value="Pakistan">Pakistan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Palau">Palau</option>';
-            Closestforeignneighboris_options_str  += '<option value="Panama">Panama</option>';
-            Closestforeignneighboris_options_str  += '<option value="Papua New Guinea">Papua New Guinea</option>';
-            Closestforeignneighboris_options_str  += '<option value="Paraguay">Paraguay</option>';
-            Closestforeignneighboris_options_str  += '<option value="Peru">Peru</option>';
-            Closestforeignneighboris_options_str  += '<option value="Philippines">Philippines</option>';
-            Closestforeignneighboris_options_str  += '<option value="Poland">Poland</option>';
-            Closestforeignneighboris_options_str  += '<option value="Portugal">Portugal</option>';
-            Closestforeignneighboris_options_str  += '<option value="Qatar">Qatar</option>';
-            Closestforeignneighboris_options_str  += '<option value="Republic of Serbia">Republic of Serbia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Republic of the Congo">Republic of the Congo</option>';
-            Closestforeignneighboris_options_str  += '<option value="Romania">Romania</option>';
-            Closestforeignneighboris_options_str  += '<option value="Russia">Russia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Rwanda">Rwanda</option>';
-            Closestforeignneighboris_options_str  += '<option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>';
-            Closestforeignneighboris_options_str  += '<option value="Saint Lucia">Saint Lucia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>';
-            Closestforeignneighboris_options_str  += '<option value="Samoa">Samoa</option>';
-            Closestforeignneighboris_options_str  += '<option value="San Marino">San Marino</option>';
-            Closestforeignneighboris_options_str  += '<option value="Saudi Arabia">Saudi Arabia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Scarborough Reef">Scarborough Reef</option>';
-            Closestforeignneighboris_options_str  += '<option value="Senegal">Senegal</option>';
-            Closestforeignneighboris_options_str  += '<option value="Sierra Leone">Sierra Leone</option>';
-            Closestforeignneighboris_options_str  += '<option value="Singapore">Singapore</option>';
-            Closestforeignneighboris_options_str  += '<option value="Slovakia">Slovakia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Slovenia">Slovenia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Solomon Islands">Solomon Islands</option>';
-            Closestforeignneighboris_options_str  += '<option value="Somalia">Somalia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Somaliland">Somaliland</option>';
-            Closestforeignneighboris_options_str  += '<option value="South Africa">South Africa</option>';
-            Closestforeignneighboris_options_str  += '<option value="South Korea">South Korea</option>';
-            Closestforeignneighboris_options_str  += '<option value="South Sudan">South Sudan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Spain">Spain</option>';
-            Closestforeignneighboris_options_str  += '<option value="Spratly Islands">Spratly Islands</option>';
-            Closestforeignneighboris_options_str  += '<option value="Sri Lanka">Sri Lanka</option>';
-            Closestforeignneighboris_options_str  += '<option value="Sudan">Sudan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Suriname">Suriname</option>';
-            Closestforeignneighboris_options_str  += '<option value="Sweden">Sweden</option>';
-            Closestforeignneighboris_options_str  += '<option value="Switzerland">Switzerland</option>';
-            Closestforeignneighboris_options_str  += '<option value="Syria">Syria</option>';
-            Closestforeignneighboris_options_str  += '<option value="Taiwan">Taiwan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Tajikistan">Tajikistan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Thailand">Thailand</option>';
-            Closestforeignneighboris_options_str  += '<option value="The Bahamas">The Bahamas</option>';
-            Closestforeignneighboris_options_str  += '<option value="Togo">Togo</option>';
-            Closestforeignneighboris_options_str  += '<option value="Tonga">Tonga</option>';
-            Closestforeignneighboris_options_str  += '<option value="Trinidad and Tobago">Trinidad and Tobago</option>';
-            Closestforeignneighboris_options_str  += '<option value="Tunisia">Tunisia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Turkey">Turkey</option>';
-            Closestforeignneighboris_options_str  += '<option value="Turkmenistan">Turkmenistan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Tuvalu">Tuvalu</option>';
-            Closestforeignneighboris_options_str  += '<option value="Uganda">Uganda</option>';
-            Closestforeignneighboris_options_str  += '<option value="Ukraine">Ukraine</option>';
-            Closestforeignneighboris_options_str  += '<option value="United Arab Emirates">United Arab Emirates</option>';
-            Closestforeignneighboris_options_str  += '<option value="United Kingdom">United Kingdom</option>';
-            Closestforeignneighboris_options_str  += '<option value="United Republic of Tanzania">United Republic of Tanzania</option>';
-            Closestforeignneighboris_options_str  += '<option value="United States of America">United States of America</option>';
-            Closestforeignneighboris_options_str  += '<option value="Uruguay">Uruguay</option>';
-            Closestforeignneighboris_options_str  += '<option value="Uzbekistan">Uzbekistan</option>';
-            Closestforeignneighboris_options_str  += '<option value="Vanuatu">Vanuatu</option>';
-            Closestforeignneighboris_options_str  += '<option value="Vatican">Vatican</option>';
-            Closestforeignneighboris_options_str  += '<option value="Venezuela">Venezuela</option>';
-            Closestforeignneighboris_options_str  += '<option value="Vietnam">Vietnam</option>';
-            Closestforeignneighboris_options_str  += '<option value="Western Sahara">Western Sahara</option>';
-            Closestforeignneighboris_options_str  += '<option value="Yemen">Yemen</option>';
-            Closestforeignneighboris_options_str  += '<option value="Zambia">Zambia</option>';
-            Closestforeignneighboris_options_str  += '<option value="Zimbabwe">Zimbabwe</option>';
-            Closestforeignneighboris_options_str  += '<option value="eSwatini">eSwatini</option>';
-            sel_Closestforeignneighboris.innerHTML = Closestforeignneighboris_options_str;
-            div_Closestforeignneighboris.appendChild(sel_Closestforeignneighboris);
-            var lab_Closestforeignneighboris = document.createElement('div');
-            lab_Closestforeignneighboris.innerHTML = 'Closest foreign neighbor is:';
-            lab_Closestforeignneighboris.className = 'filterlabel';
-            div_Closestforeignneighboris.appendChild(lab_Closestforeignneighboris);
-            var reset_Closestforeignneighboris = document.createElement('div');
-            reset_Closestforeignneighboris.innerHTML = 'clear filter';
-            reset_Closestforeignneighboris.className = 'filterlabel';
-            reset_Closestforeignneighboris.onclick = function() {
-                var options = document.getElementById("sel_Closestforeignneighboris").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_Closestforeignneighboris.appendChild(reset_Closestforeignneighboris);
         </script>
     </body>
 </html>
