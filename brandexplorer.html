@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Brand explorer</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.9.0-beta.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.9.0-beta.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+#features {
+position: absolute;
+top: 0;
+right: 0;
+bottom: 0;
+width: 20%;
+overflow: auto;
+background: rgba(255, 255, 255, 0.8);
+}
+#map canvas {
+cursor: crosshair;
+}
+</style>
+</head>
+<body>
+<div id="map"></div>
+<pre id="features"></pre>
+<script>
+    let initLoad = true;
+
+	mapboxgl.accessToken = 'pk.eyJ1IjoidGp1a2Fub3Z0IiwiYSI6ImNrNTdxempkZTBmeTczZmxqdmxmNHlqczAifQ.a_BL5RTprJKXwaTzbsPeyw';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        projection: 'globe',
+        style: 'mapbox://styles/tjukanovt/cl3spwu7o004o14o10m73uq9c',
+        zoom: 2,
+        center: [0,0]
+    });
+
+    map.on('load', () => {
+
+    if (initLoad) {
+        initLoad = false;
+        map.setFog({
+            color: '#f4fc64',
+            'horizon-blend': 0.01,
+            'high-color': '#000',
+            'star-intensity': 0.2,
+            'space-color': '#000'
+        });
+    }
+
+    });
+
+    map.on('load', () => {
+        map.addSource('brands-concavehull', {
+            type: 'vector',
+            // Use any Mapbox-hosted tileset using its tileset id.
+            // Learn more about where to find a tileset id:
+            // https://docs.mapbox.com/help/glossary/tileset-id/
+            url: 'mapbox://tjukanovt.cq73to97'
+        });
+
+        map.addLayer(
+        {
+        'id': 'brands-highlighted',
+        'type': 'line',
+        'source': 'brands-concavehull',
+        'source-layer': 'brands-concavehull-4m6eod',
+        'paint': {
+        'line-color': '#f4fc64',
+        'line-opacity': [
+            "interpolate",
+            ["exponential", 0.7],
+            ["zoom"],
+            0,
+            0.2,
+            22,
+            1
+            ],
+        'line-width': [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        0,
+        0.05,
+        5,
+        0.1,
+        22,
+        1
+        ]
+        },
+        // Display none by adding a
+        // filter with an empty string.
+         'filter': ['in', 'brand', '']
+        }
+        );
+
+        map.addLayer(
+        {
+        'id': 'brands',
+        'type': 'fill',
+        'source': 'brands-concavehull',
+        'source-layer': 'brands-concavehull-4m6eod',
+        'paint': {
+        'fill-color': '#000000',
+        'fill-outline-color': '#000000',
+        'fill-opacity': 0
+        },
+        // Display none by adding a
+        // filter with an empty string.
+        }
+        );
+
+        map.on('click', (e) => {
+        
+        const bbox = [
+        [e.point.x - 1, e.point.y - 1],
+        [e.point.x + 1, e.point.y + 1]
+        ];
+        // Find features intersecting the bounding box.
+        const selectedFeatures = map.queryRenderedFeatures(bbox, {
+        layers: ['brands']
+        });
+
+        selectedFeatures.sort((a, b) => a.properties.count - b.properties.count).reverse();
+
+        const brand = selectedFeatures.map(
+        (feature) => feature.properties.brand
+        );
+
+        map.setFilter('brands-highlighted', ['in', 'brand', ...brand]);
+
+        document.getElementById('features').innerHTML = JSON.stringify(
+        brand, 
+        null,
+        2,
+        );
+
+        });
+
+    });
+
+
+</script>
+
+</body>
+</html>
