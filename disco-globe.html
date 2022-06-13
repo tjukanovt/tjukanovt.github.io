@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Disco globe</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.9.0-beta.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.9.0-beta.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    let initLoad = true;
+
+
+
+    function random_rgba() {
+    var o = Math.round, s = 255;
+    return 'rgba(' + o((Date.now()/1000)% 3*s) + ',' + o((Date.now()/1500)% 5*s) + ',' + o((Date.now()/2000)% 10 *s) + ',' + 1 + ')';
+    }
+
+    function adjustAtmosphere() {
+        map.setFog({
+            color: random_rgba(),
+            'horizon-blend': (Math.sin((Date.now()/1000)) % 60) / 10,
+            'high-color': '#9BBBA0',
+            'star-intensity': (Math.sin((Date.now()/1000)) % 60) / 100,
+            'space-color': '#384426'
+        });
+    }
+
+   
+
+    setInterval(adjustAtmosphere, 10); // Milliseconds
+
+	mapboxgl.accessToken = 'pk.eyJ1IjoidGp1a2Fub3Z0IiwiYSI6ImNrNTdxempkZTBmeTczZmxqdmxmNHlqczAifQ.a_BL5RTprJKXwaTzbsPeyw';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        projection: 'globe',
+        style: 'mapbox://styles/tjukanovt/cl46yduq5002316opf823qy10',
+        zoom: 3,
+        center: [120,-10]
+    });
+
+    map.on('load', () => {
+
+    if (initLoad) {
+        initLoad = false;
+        map.setFog({
+            color: random_rgba(),
+            'horizon-blend': (Math.sin((Date.now()/1000)) % 60) / 10,
+            'high-color': '#9BBBA0',
+            'star-intensity': (Math.sin((Date.now()/1000)) % 60) / 100,
+            'space-color': '#384426'
+        });
+
+    }
+
+
+
+    });
+
+</script>
+
+</body>
+</html>
