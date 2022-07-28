@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Notable people</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+
+
+    </style>
+
+</head>
+
+
+<body>
+    <style>
+        #menu {
+            position: relative;
+            color:#fff;
+            background: rgba(42, 19, 144, 0);
+            padding: 20px 20px 30px;
+            font-family: 'Open Sans', sans-serif;
+            color: #FBBBFF;
+            font-size: 12px;
+            max-width: 220px;
+            text-justify: auto;
+        }
+        a:link {
+            color: #FFB333;
+            background-color: transparent;
+            text-decoration: underline;
+            }
+
+            a:visited {
+            color: pink;
+            background-color: transparent;
+            text-decoration: none;
+            }
+
+            a:hover {
+            color: red;
+            background-color: transparent;
+            text-decoration: underline;
+            }
+
+            a:active {
+            color: yellow;
+            background-color: transparent;
+            text-decoration: underline;
+            }
+
+            .mapboxgl-popup-content {
+            background-color: #3d1ad5;
+            color: white;
+            }
+
+    </style>
+
+    <div id="map"></div>
+    <div id="menu">
+        <h2 style="margin-top: 3px;">Notable people</h2>
+        <p>Using data from <a href ='https://www.nature.com/articles/s41597-022-01369-4' target='_blank'>Morgane Laouenan et al</a>., the map is showing the most "notable people" around the world. Data has been processed to show only one person for each unique geographic location with the highest notability rank. Click below to show people only from a specific category. Made by <a href='https://twitter.com/tjukanov' target='_blank'> Topi Tjukanov</a ></p>
+        <div>
+            <input id="notable-people" type="radio" name="rtoggle" value="notable-people" checked="checked">
+            <label for="all">All</label>
+        </div>
+        <div>
+            <input id="culture" type="radio" name="rtoggle" value="culture">
+            <label for="culture">Culture</label>
+        </div>
+        <div>
+            <input id="science" type="radio" name="rtoggle" value="science">
+            <label for="science">Discovery & Science</label>
+        </div>
+        <div>
+            <input id="leadership" type="radio" name="rtoggle" value="leadership">
+            <label for="leadership">Leadership</label>
+        </div>
+        <div>
+            <input id="sport" type="radio" name="rtoggle" value="sport">
+            <label for="sport">Sports & Games</label>
+        </div>
+        <br>
+        <div>
+            <input id="place-labels" type="radio" name="rtoggle" value="place-labels">
+            <label for="place-labels"><i>Show real place names</i></label>
+        </div>
+    </div>
+
+    
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoidGp1a2Fub3Z0IiwiYSI6ImNsNjRwY3ZqaTByZGgzZG81d21jY2QwOHUifQ.8uZ5wiR2UIvaPHcCTP4wzw';
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/tjukanovt/cl63d8u8v000q14ortkgzmqwk',
+            zoom: 2,
+            center: [5, 30],
+            pitch: 5
+        });
+
+        map.on('load', () => {
+            map.addSource('notable-people', {
+                type: 'vector',
+                url: 'mapbox://tjukanovt.notable-people-v3'
+            });
+            map.addLayer({
+                'id': 'notable-people',
+                'type': 'symbol',
+                'source': 'notable-people',
+                'source-layer': 'notable-people',
+                'layout': {
+                    'symbol-sort-key': ["get", "rank"],
+                    'text-field': ["to-string", ["get", "name"]],
+                    'text-font': [
+                        "step",
+                        ["zoom"],
+                        [
+                            "step",
+                            ["get", "rank"],
+                            [
+                                "literal",
+                                [
+                                    "Open Sans ExtraBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            100,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Bold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            1000,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans SemiBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            10000,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Regular",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ]
+                        ],
+                        22,
+                        [
+                            "step",
+                            ["get", "rank"],
+                            [
+                                "literal",
+                                [
+                                    "Open Sans ExtraBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            250.5,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Bold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            500,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Regular",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ]
+                        ]
+                    ],
+                    'text-size': [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        0,
+                        [
+                            "interpolate",
+                            ["exponential", 1.21],
+                            ["get", "sum"],
+                            9.152710914611816,
+                            7.5,
+                            41.76505661010742,
+                            11
+                        ],
+                        10,
+                        [
+                            "interpolate",
+                            ["exponential", 1.5],
+                            ["get", "sum"],
+                            9.152710914611816,
+                            12,
+                            35,
+                            20
+                        ]
+                    ],
+                },
+                'paint': {
+                    "text-color": "hsl(0, 10%, 98%)"
+                }
+            });
+            map.addLayer({
+                'id': 'sport',
+                'type': 'symbol',
+                'source': 'notable-people',
+                'source-layer': 'sport',
+                'layout': {
+                    'visibility': 'none',
+                    'symbol-sort-key': ["get", "rank"],
+                    'text-field': ["to-string", ["get", "name"]],
+                    'text-font': [
+                        "step",
+                        ["zoom"],
+                        [
+                            "step",
+                            ["get", "rank"],
+                            [
+                                "literal",
+                                [
+                                    "Open Sans ExtraBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            100,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Bold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            1000,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans SemiBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            10000,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Regular",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ]
+                        ],
+                        22,
+                        [
+                            "step",
+                            ["get", "rank"],
+                            [
+                                "literal",
+                                [
+                                    "Open Sans ExtraBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            250.5,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Bold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            500,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Regular",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ]
+                        ]
+                    ],
+                    'text-size': [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        0,
+                        [
+                            "interpolate",
+                            ["exponential", 1.21],
+                            ["get", "sum"],
+                            9.152710914611816,
+                            7.5,
+                            41.76505661010742,
+                            11
+                        ],
+                        10,
+                        [
+                            "interpolate",
+                            ["exponential", 1.5],
+                            ["get", "sum"],
+                            9.152710914611816,
+                            12,
+                            35,
+                            20
+                        ]
+                    ],
+                },
+                'paint': {
+                    "text-color": "hsl(0, 10%, 98%)"
+                }
+            });
+            map.addLayer({
+                'id': 'culture',
+                'type': 'symbol',
+                'source': 'notable-people',
+                'source-layer': 'culture',
+                'layout': {
+                    'visibility': 'none',
+                    'symbol-sort-key': ["get", "rank"],
+                    'text-field': ["to-string", ["get", "name"]],
+                    'text-font': [
+                        "step",
+                        ["zoom"],
+                        [
+                            "step",
+                            ["get", "rank"],
+                            [
+                                "literal",
+                                [
+                                    "Open Sans ExtraBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            100,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Bold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            1000,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans SemiBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            10000,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Regular",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ]
+                        ],
+                        22,
+                        [
+                            "step",
+                            ["get", "rank"],
+                            [
+                                "literal",
+                                [
+                                    "Open Sans ExtraBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            250.5,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Bold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            500,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Regular",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ]
+                        ]
+                    ],
+                    'text-size': [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        0,
+                        [
+                            "interpolate",
+                            ["exponential", 1.21],
+                            ["get", "sum"],
+                            9.152710914611816,
+                            7.5,
+                            41.76505661010742,
+                            11
+                        ],
+                        10,
+                        [
+                            "interpolate",
+                            ["exponential", 1.5],
+                            ["get", "sum"],
+                            9.152710914611816,
+                            12,
+                            35,
+                            20
+                        ]
+                    ],
+                },
+                'paint': {
+                    "text-color": "hsl(0, 10%, 98%)"
+                }
+            });
+            map.addLayer({
+                'id': 'science',
+                'type': 'symbol',
+                'source': 'notable-people',
+                'source-layer': 'science',
+                'layout': {
+                    'visibility': 'none',
+                    'symbol-sort-key': ["get", "rank"],
+                    'text-field': ["to-string", ["get", "name"]],
+                    'text-font': [
+                        "step",
+                        ["zoom"],
+                        [
+                            "step",
+                            ["get", "rank"],
+                            [
+                                "literal",
+                                [
+                                    "Open Sans ExtraBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            100,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Bold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            1000,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans SemiBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            10000,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Regular",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ]
+                        ],
+                        22,
+                        [
+                            "step",
+                            ["get", "rank"],
+                            [
+                                "literal",
+                                [
+                                    "Open Sans ExtraBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            250.5,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Bold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            500,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Regular",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ]
+                        ]
+                    ],
+                    'text-size': [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        0,
+                        [
+                            "interpolate",
+                            ["exponential", 1.21],
+                            ["get", "sum"],
+                            9.152710914611816,
+                            7.5,
+                            41.76505661010742,
+                            11
+                        ],
+                        10,
+                        [
+                            "interpolate",
+                            ["exponential", 1.5],
+                            ["get", "sum"],
+                            9.152710914611816,
+                            12,
+                            35,
+                            20
+                        ]
+                    ],
+                },
+                'paint': {
+                    "text-color": "hsl(0, 10%, 98%)"
+                }
+            });
+            map.addLayer({
+                'id': 'leadership',
+                'type': 'symbol',
+                'source': 'notable-people',
+                'source-layer': 'leadership',
+                'layout': {
+                    'visibility': 'none',
+                    'symbol-sort-key': ["get", "rank"],
+                    'text-field': ["to-string", ["get", "name"]],
+                    'text-font': [
+                        "step",
+                        ["zoom"],
+                        [
+                            "step",
+                            ["get", "rank"],
+                            [
+                                "literal",
+                                [
+                                    "Open Sans ExtraBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            100,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Bold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            1000,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans SemiBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            10000,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Regular",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ]
+                        ],
+                        22,
+                        [
+                            "step",
+                            ["get", "rank"],
+                            [
+                                "literal",
+                                [
+                                    "Open Sans ExtraBold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            250.5,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Bold",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ],
+                            500,
+                            [
+                                "literal",
+                                [
+                                    "Open Sans Regular",
+                                    "Arial Unicode MS Regular"
+                                ]
+                            ]
+                        ]
+                    ],
+                    'text-size': [
+                        "interpolate",
+                        ["linear"],
+                        ["zoom"],
+                        0,
+                        [
+                            "interpolate",
+                            ["exponential", 1.21],
+                            ["get", "sum"],
+                            9.152710914611816,
+                            7.5,
+                            41.76505661010742,
+                            11
+                        ],
+                        10,
+                        [
+                            "interpolate",
+                            ["exponential", 1.5],
+                            ["get", "sum"],
+                            9.152710914611816,
+                            12,
+                            35,
+                            20
+                        ]
+                    ],
+                },
+                'paint': {
+                    "text-color": "hsl(0, 10%, 98%)"
+                }
+            });
+        });
+
+        const layerList = document.getElementById('menu');
+        const inputs = layerList.getElementsByTagName('input');
+        const popup = new mapboxgl.Popup({
+        });
+
+        map.on('click', 'notable-people', (e) => {
+            const feature = e.features[0];
+
+            if (feature.properties.is_alive == 1)
+                    {isAlive = 'Probably yes'} 
+                    else {isAlive = 'Nope'}
+
+            popup
+                .setLngLat(feature.geometry.coordinates)
+                .setText(
+                    `${feature.properties.name}`
+                )
+                .setHTML('<b><a href="' + 'https://www.wikidata.org/wiki/' + feature.properties.wikidata_code + ' "target="_blank">' + feature.properties.name + ' @Wikidata </a></b> <br> Notability rank: ' + feature.properties.rank + '<br> Gender: '+ feature.properties.gender + '<br> Is alive: ' + isAlive)                .addTo(map);
+        });
+
+        for (const input of inputs) {
+            input.onclick = (layer) => {
+                const layerId = layer.target.id;
+                let toggleableLayerIds = ['notable-people', 'science', 'culture', 'leadership', 'sport'];
+                let labelLayers = ['continent-label', 'country-label', 'state-label', 'settlement-major-label', 'settlement-minor-label', 'settlement-subdivision-label']
+
+                if (layerId == 'place-labels'){
+                    for (const lyr of toggleableLayerIds) {
+                    map.setLayoutProperty(lyr, 'visibility', 'none');
+                }
+                
+                    for (const lyr of labelLayers) {
+                    map.setLayoutProperty(lyr, 'visibility', 'visible');
+                }
+                }
+                else {
+                    for (const lyr of labelLayers) {
+                    map.setLayoutProperty(lyr, 'visibility', 'none');
+                }
+
+                var filteredArray = toggleableLayerIds.filter(function (e) { return e !== layerId })
+
+                for (const lyr of filteredArray) {
+                    map.setLayoutProperty(lyr, 'visibility', 'none');
+                }
+            
+              map.setLayoutProperty(layerId, 'visibility', 'visible');
+
+                map.on('click', layerId, (e) => {
+                    const feature = e.features[0];
+
+                    let isAlive =''
+
+                    if (feature.properties.is_alive == 1)
+                    {isAlive = 'Probably yes'} 
+                    else {isAlive = 'Nope'}
+
+                    popup
+                        .setLngLat(feature.geometry.coordinates)
+                        .setHTML('<b><a href="' + 'https://www.wikidata.org/wiki/' + feature.properties.wikidata_code + ' "target="_blank">' + feature.properties.name + ' @ Wikidata </a></b> <br> Notability rank: ' + feature.properties.rank + '<br> Gender: '+ feature.properties.gender + '<br> Is alive: ' + isAlive)
+                        .addTo(map);
+                });
+
+            }};
+        };
+
+    </script>
+
+</body>
+
+</html>
