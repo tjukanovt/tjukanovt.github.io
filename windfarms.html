@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Windfarms</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    let initLoad = true;
+
+	mapboxgl.accessToken = 'pk.eyJ1IjoidGp1a2Fub3Z0IiwiYSI6ImNsNjRwY3ZqaTByZGgzZG81d21jY2QwOHUifQ.8uZ5wiR2UIvaPHcCTP4wzw';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        projection: 'globe',
+        style: 'mapbox://styles/tjukanovt/cl9xwomsn004414o67xsdze4r',
+        zoom: 3.5,
+        center: [15,50],
+        pitch: 15
+    });
+
+</script>
+
+</body>
+</html>
