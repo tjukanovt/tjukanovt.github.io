@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Writing systems of the world's towns</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="description" content="Which writing system is each city and town name written in? A global map of the scripts of 115,175 OpenStreetMap place names.">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.34.2/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.34.2/mapbox-gl.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Serif+Display:wght@600&display=swap" rel="stylesheet">
+    <!-- Only the glyphs of the sample place names below, one Noto family per script -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC&family=Noto+Sans+JP&family=Noto+Sans+KR&family=Noto+Sans+Arabic&family=Noto+Sans+Hebrew&family=Noto+Sans+Thai&family=Noto+Sans+Devanagari&family=Noto+Sans+Bengali&family=Noto+Sans+Gujarati&family=Noto+Sans+Tamil&family=Noto+Sans+Myanmar&family=Noto+Sans+Khmer&family=Noto+Sans+Lao&family=Noto+Sans+Georgian&family=Noto+Sans+Armenian&family=Noto+Sans+Ethiopic&family=Noto+Sans+Thaana&family=Noto+Sans+Mongolian&family=Noto+Sans+Tifinagh&family=Noto+Sans+New+Tai+Lue&family=Noto+Sans+Yi&family=Noto+Sans+Canadian+Aboriginal&family=Noto+Serif+Tibetan&text=%CE%91%CE%AE%CE%B1%CE%B8%CE%BD%D0%9C%D0%B0%D0%B2%D0%BA%D0%BE%D1%81%D4%B5%D5%A1%D5%B6%D6%80%D6%87%D7%95%D7%99%D7%9C%D7%9D%D7%A8%D7%A9%D8%A7%D8%B1%DA%86%DA%A9%DB%8C%DE%89%DE%8D%DE%A7%DE%AC%E0%A4%82%E0%A4%95%E0%A4%A0%E0%A4%A1%E0%A4%AE%E0%A4%BE%E0%A5%8C%E0%A6%95%E0%A6%A2%E0%A6%BE%E0%AA%82%E0%AA%97%E0%AA%A7%E0%AA%AE%E0%AA%BE%E0%AB%80%E0%AE%A8%E0%AE%B0%E0%AE%B2%E0%AE%B5%E0%AE%BF%E0%AF%80%E0%AF%87%E0%AF%8D%E0%B8%81%E0%B8%84%E0%B8%87%E0%B8%97%E0%B8%99%E0%B8%9E%E0%B8%A1%E0%B8%A3%E0%B8%AB%E0%B8%B2%E0%B8%B8%E0%B9%80%E0%BA%87%E0%BA%88%E0%BA%99%E0%BA%A7%E0%BA%B1%E0%BA%BD%E0%BC%8B%E0%BD%A3%E0%BD%A6%E0%BE%B7%E1%80%80%E1%80%94%E1%80%9B%E1%80%AF%E1%80%BA%E1%83%91%E1%83%97%E1%83%98%E1%83%9A%E1%83%A1%E1%88%B5%E1%89%A0%E1%89%A3%E1%8A%A0%E1%8B%B2%E1%90%83%E1%90%A0%E1%90%A3%E1%90%A6%E1%91%B2%E1%93%80%E1%93%83%E1%93%B5%E1%9E%89%E1%9E%93%E1%9E%96%E1%9E%97%E1%9F%81%E1%9F%86%E1%9F%92%E1%A0%A0%E1%A0%A1%E1%A0%A3%E1%A0%A5%E1%A0%AC%E1%A0%B2%E1%A3%9E%E1%A6%8B%E1%A6%A3%E1%A6%B3%E1%A6%B5%E1%A7%82%E1%A7%88%E2%B4%B0%E2%B4%B7%E2%B5%89%E2%B5%8D%E2%B5%8E%E2%B5%93%E2%B5%94%E2%B5%9C%E3%81%84%E3%81%95%E3%81%9F%E3%81%BE%E4%B8%8A%E6%B5%B7%EA%84%BF%EA%8D%A0%EA%8D%A9%EA%92%89%EC%84%9C%EC%9A%B8&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1d1f24;
+            --muted: #6b6f78;
+            --line: rgba(29, 31, 36, 0.12);
+            --paper: rgba(255, 255, 255, 0.92);
+            --accent: #2f5d8a;
+            --script-fonts: "Noto Sans", "Noto Sans SC", "Noto Sans JP", "Noto Sans KR", "Noto Sans Arabic",
+                "Noto Sans Hebrew", "Noto Sans Thai", "Noto Sans Devanagari", "Noto Sans Bengali",
+                "Noto Sans Gujarati", "Noto Sans Tamil", "Noto Sans Myanmar", "Noto Sans Khmer", "Noto Sans Lao",
+                "Noto Sans Georgian", "Noto Sans Armenian", "Noto Sans Ethiopic", "Noto Sans Thaana",
+                "Noto Sans Mongolian", "Noto Sans Tifinagh", "Noto Sans New Tai Lue", "Noto Sans Yi",
+                "Noto Sans Canadian Aboriginal", "Noto Serif Tibetan", sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #e9eaec;
+            color: var(--ink);
+            font-family: "Noto Sans", system-ui, sans-serif;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #panel {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 340px;
+            max-height: calc(100% - 64px);   /* stop above the Mapbox logo */
+            display: flex;
+            flex-direction: column;
+            background: var(--paper);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .panel-head {
+            padding: 20px 22px 12px;
+        }
+
+        .eyebrow {
+            margin: 0 0 6px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        h1 {
+            margin: 0 0 10px;
+            font-family: "Noto Serif Display", Georgia, serif;
+            font-weight: 600;
+            font-size: 27px;
+            line-height: 1.1;
+        }
+
+        .lede {
+            margin: 0;
+            font-size: 13.5px;
+            line-height: 1.5;
+            color: #3c4048;
+        }
+
+        .panel-body {
+            overflow-y: auto;
+            padding: 0 22px 18px;
+        }
+
+        .legend-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin: 12px 0 4px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        #reset {
+            font: inherit;
+            letter-spacing: 0;
+            text-transform: none;
+            font-size: 12px;
+            color: var(--accent);
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            visibility: hidden;
+        }
+
+        #legend {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #legend li {
+            display: grid;
+            grid-template-columns: 14px 1fr auto;
+            gap: 4px 10px;
+            align-items: center;
+            padding: 6px 8px;
+            margin: 0 -8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.12s, opacity 0.12s;
+        }
+
+        #legend li:hover,
+        #legend li.hover { background: rgba(47, 93, 138, 0.08); }
+        #legend li.active { background: rgba(47, 93, 138, 0.14); }
+        #legend.filtered li:not(.active) { opacity: 0.45; }
+
+        .swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 4px;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+        }
+
+        .script-name {
+            font-size: 13.5px;
+            font-weight: 600;
+            line-height: 1.25;
+        }
+
+        .sample {
+            display: block;
+            font-family: var(--script-fonts);
+            font-weight: 400;
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+
+        .sample .en {
+            font-family: "Noto Sans", sans-serif;
+            font-size: 11.5px;
+            opacity: 0.8;
+        }
+
+        .count {
+            font-size: 12px;
+            color: var(--muted);
+            font-variant-numeric: tabular-nums;
+            text-align: right;
+        }
+
+        details {
+            margin-top: 14px;
+            border-top: 1px solid var(--line);
+            padding-top: 12px;
+            font-size: 12.5px;
+            line-height: 1.55;
+            color: #3c4048;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        details p { margin: 8px 0 0; }
+
+        .credits {
+            margin-top: 14px;
+            font-size: 11.5px;
+            line-height: 1.5;
+            color: var(--muted);
+        }
+
+        a { color: var(--accent); }
+
+        #toggle {
+            display: none;
+        }
+
+        .tip .mapboxgl-popup-content {
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-family: "Noto Sans", sans-serif;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .tip-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .tip-sub {
+            margin-top: 2px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 640px) {
+            #panel {
+                top: auto;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: auto;
+                max-height: 62%;
+                border-radius: 16px 16px 0 0;
+            }
+
+            .panel-head { padding: 14px 16px 8px; padding-right: 64px; }
+            .panel-body { padding: 0 16px 16px; }
+            h1 { font-size: 21px; }
+
+            #toggle {
+                display: block;
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                font: 600 12px "Noto Sans", sans-serif;
+                color: var(--accent);
+                background: rgba(47, 93, 138, 0.1);
+                border: none;
+                border-radius: 999px;
+                padding: 6px 12px;
+                cursor: pointer;
+            }
+
+            #panel.collapsed .panel-body,
+            #panel.collapsed .lede { display: none; }
+
+            /* Keep the Mapbox logo and attribution visible above the sheet */
+            .mapboxgl-ctrl-bottom-left,
+            .mapboxgl-ctrl-bottom-right {
+                bottom: var(--sheet-h, 0px);
+                transition: bottom 0.2s;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+
+    <aside id="panel">
+        <button id="toggle" aria-expanded="true">Hide</button>
+        <div class="panel-head">
+            <p class="eyebrow">OpenStreetMap · 115,175 cities &amp; towns</p>
+            <h1>Writing systems of the world's towns</h1>
+            <p class="lede">
+                Every coloured area is the land closest to a city or town in OpenStreetMap, painted by
+                the script its local name is written in. Hover over the map to explore, or pick a script
+                below to see where it is used.
+            </p>
+        </div>
+        <div class="panel-body">
+            <div class="legend-head">
+                <span>Script · example</span>
+                <button id="reset">Show all</button>
+            </div>
+            <ul id="legend"></ul>
+
+            <details>
+                <summary>How this map was made</summary>
+                <p>
+                    Places tagged <code>place=city</code> or <code>place=town</code> in OpenStreetMap were taken
+                    from the Overture Maps divisions dataset (release 2026-11-18), keeping only features with an
+                    OpenStreetMap source. Each place's local <code>name</code> was assigned to the Unicode script
+                    that most of its letters belong to.
+                </p>
+                <p>
+                    Each town then got a Voronoi cell, the area closer to it than to any other town, computed
+                    on the sphere so that cells wrap the globe without distortion. Neighbouring cells with the
+                    same script were merged into the regions you see here.
+                </p>
+                <p>
+                    Japanese place names are mostly written in kanji, so they count as Han; only names
+                    with kana appear as Japanese kana. Bilingual names such as
+                    <span style="font-family: var(--script-fonts)">ⵜⴰⴷⴷⴰⵔⵜ ⵜⵓⵎⵍⵉⵍⵜ</span> count towards
+                    whichever script has more letters. Large empty areas take the script of the nearest town.
+                </p>
+            </details>
+
+            <p class="credits">
+                Made by <a href="https://twitter.com/tjukanov" target="_blank">Topi Tjukanov</a>.
+                Data © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>,
+                via <a href="https://overturemaps.org/" target="_blank">Overture Maps</a>.
+            </p>
+        </div>
+    </aside>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoidGp1a2Fub3Z0IiwiYSI6ImNsNjRwY3ZqaTByZGgzZG81d21jY2QwOHUifQ.8uZ5wiR2UIvaPHcCTP4wzw';
+
+        const LAYER = 'scripts';   // fill layer id in the Studio style
+
+        // Cities and towns per script (osm_scripts.geojson), with a real place name as example.
+        const SCRIPTS = [
+            ['LATIN', 'Latin', 62448, 'Kinshasa', ''],
+            ['HAN', 'Han (Chinese characters)', 35412, '上海', 'Shanghai'],
+            ['ARABIC', 'Arabic', 6276, 'کراچی', 'Karachi'],
+            ['CYRILLIC', 'Cyrillic', 5125, 'Москва', 'Moscow'],
+            ['HANGUL', 'Hangul', 1754, '서울', 'Seoul'],
+            ['THAI', 'Thai', 1081, 'กรุงเทพมหานคร', 'Bangkok'],
+            ['MYANMAR', 'Myanmar (Burmese)', 566, 'ရန်ကုန်', 'Yangon'],
+            ['BENGALI', 'Bengali', 521, 'ঢাকা', 'Dhaka'],
+            ['GREEK', 'Greek', 447, 'Αθήνα', 'Athens'],
+            ['MONGOLIAN', 'Mongolian', 379, 'ᠬᠥᠬᠡᠬᠣᠲᠠ', 'Hohhot'],
+            ['KHMER', 'Khmer', 232, 'ភ្នំពេញ', 'Phnom Penh'],
+            ['TIBETAN', 'Tibetan', 177, 'ལྷ་ས', 'Lhasa'],
+            ['TIFINAGH', 'Tifinagh (Berber)', 120, 'ⵜⴰⴷⴷⴰⵔⵜ ⵜⵓⵎⵍⵉⵍⵜ', 'Casablanca'],
+            ['LAO', 'Lao', 116, 'ວຽງຈັນ', 'Vientiane'],
+            ['HEBREW', 'Hebrew', 106, 'ירושלים', 'Jerusalem'],
+            ['DEVANAGARI', 'Devanagari', 101, 'काठमाडौं', 'Kathmandu'],
+            ['GEORGIAN', 'Georgian', 79, 'თბილისი', 'Tbilisi'],
+            ['KANA', 'Japanese kana', 72, 'さいたま', 'Saitama'],
+            ['ETHIOPIC', 'Geʼez (Ethiopic)', 59, 'አዲስ አበባ', 'Addis Ababa'],
+            ['ARMENIAN', 'Armenian', 48, 'Երևան', 'Yerevan'],
+            ['THAANA', 'Thaana (Dhivehi)', 24, 'މާލެ', 'Malé'],
+            ['NEW', 'New Tai Lue', 13, 'ᦵᦋᧂ ᦣᦳᧂᧈ', 'Jinghong'],
+            ['GUJARATI', 'Gujarati', 10, 'ગાંધીધામ', 'Gandhidham'],
+            ['CANADIAN', 'Canadian syllabics', 6, 'ᓀᑲᣞ ᓵᑲᐦᐃᑲᓃᐣᐠ', 'Sandy Lake'],
+            ['TAMIL', 'Tamil', 2, 'நீர்வேலி', 'Neerveli'],
+            ['YI', 'Yi', 1, 'ꍩꍠꒉꄿ', 'Ebian'],
+        ];
+        const INFO = Object.fromEntries(SCRIPTS.map(([key, label, count, sample, en]) => [key, { label, count, sample, en }]));
+        const fmt = new Intl.NumberFormat('en');
+
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/tjukanovt/cmwok7kao00an01qxgl1x6xky',
+            projection: 'globe',
+            center: [40, 25],
+            zoom: window.innerWidth < 640 ? 0.8 : 1.6
+        });
+        map.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'top-right');
+
+        // ---- Legend -------------------------------------------------------------
+        const legend = document.getElementById('legend');
+        const reset = document.getElementById('reset');
+        let selected = null;
+        let baseOpacity = 0.8;
+
+        function renderLegend(colors) {
+            legend.innerHTML = '';
+            for (const [key, label, count, sample, en] of SCRIPTS) {
+                const li = document.createElement('li');
+                li.dataset.script = key;
+                li.innerHTML = `
+                    <span class="swatch" style="background:${colors[key] || '#ccc'}"></span>
+                    <span class="script-name">${label}
+                        <span class="sample" lang="und">${sample}${en ? ` <span class="en">· ${en}</span>` : ''}</span>
+                    </span>
+                    <span class="count">${fmt.format(count)}</span>`;
+                li.addEventListener('click', () => {
+                    select(selected === key ? null : key);
+                    if (selected && mobile.matches) setCollapsed(true);   // reveal the map
+                });
+                legend.appendChild(li);
+            }
+        }
+
+        // Read colours from the style's match expression so the legend follows Studio edits.
+        function colorsFromStyle() {
+            const colors = {};
+            const expr = map.getPaintProperty(LAYER, 'fill-color');
+            if (Array.isArray(expr) && expr[0] === 'match') {
+                for (let i = 2; i < expr.length - 1; i += 2) {
+                    const keys = Array.isArray(expr[i]) ? expr[i] : [expr[i]];
+                    for (const k of keys) colors[k] = expr[i + 1];
+                }
+            }
+            return colors;
+        }
+
+        function select(key) {
+            selected = key;
+            for (const li of legend.children) li.classList.toggle('active', li.dataset.script === key);
+            legend.classList.toggle('filtered', !!key);
+            reset.style.visibility = key ? 'visible' : 'hidden';
+            if (!map.getLayer(LAYER)) return;
+            map.setPaintProperty(LAYER, 'fill-opacity', key
+                ? ['case', ['==', ['get', 'script'], key], 0.95, 0.08]
+                : baseOpacity);
+        }
+        reset.addEventListener('click', () => select(null));
+        renderLegend({});
+
+        // ---- Hover tooltip ------------------------------------------------------
+        // On phones the tooltip always opens above the tapped point, clear of the finger and the sheet.
+        const tipOptions = { closeButton: false, closeOnClick: false, offset: 12, className: 'tip' };
+        const desktopTip = new mapboxgl.Popup(tipOptions);
+        const mobileTip = new mapboxgl.Popup({ ...tipOptions, anchor: 'bottom' });
+        let tip = desktopTip;
+        let hovered = null;
+
+        function showTip(e) {
+            const f = map.queryRenderedFeatures(e.point, { layers: [LAYER] })[0];
+            const key = f && f.properties.script;
+            if (hovered && hovered !== key) {
+                const prev = legend.querySelector(`li[data-script="${hovered}"]`);
+                if (prev) prev.classList.remove('hover');
+            }
+            hovered = key || null;
+            if (!f) {
+                tip.remove();
+                map.getCanvas().style.cursor = '';
+                return;
+            }
+            map.getCanvas().style.cursor = 'pointer';
+            const info = INFO[key] || { label: key, sample: '' };
+            const towns = f.properties.cell_count;
+            const color = colorsFromStyle()[key] || '#ccc';
+            tip.setLngLat(e.lngLat).setHTML(`
+                <div class="tip-title"><span class="swatch" style="background:${color}"></span>${info.label}</div>
+                <div class="tip-sub">${towns ? `${fmt.format(towns)} ${towns === 1 ? 'town' : 'towns'} in this area` : ''}</div>`)
+                .addTo(map);
+            const li = legend.querySelector(`li[data-script="${key}"]`);
+            if (li) li.classList.add('hover');
+        }
+
+        map.on('mousemove', showTip);
+        map.on('click', showTip);
+        map.getCanvas().addEventListener('mouseleave', () => tip.remove());
+
+        map.on('load', () => {
+            if (map.getLayer(LAYER)) {
+                const op = map.getPaintProperty(LAYER, 'fill-opacity');
+                if (op !== undefined) baseOpacity = op;
+            }
+            renderLegend(colorsFromStyle());
+        });
+
+        // ---- Mobile: the panel is a collapsible bottom sheet ---------------------
+        const mobile = window.matchMedia('(max-width: 640px)');
+        const panel = document.getElementById('panel');
+        const toggle = document.getElementById('toggle');
+
+        function setCollapsed(collapsed) {
+            panel.classList.toggle('collapsed', collapsed);
+            toggle.textContent = collapsed ? 'Legend' : 'Hide';
+            toggle.setAttribute('aria-expanded', String(!collapsed));
+        }
+        toggle.addEventListener('click', () => setCollapsed(!panel.classList.contains('collapsed')));
+
+        // Keep the globe centred in the visible map and the controls above the sheet.
+        let sheetH = -1;
+        function fitToSheet(animate) {
+            const h = mobile.matches ? Math.round(panel.getBoundingClientRect().height) : 0;
+            if (h === sheetH) return;
+            sheetH = h;
+            document.documentElement.style.setProperty('--sheet-h', `${h}px`);
+            const padding = { top: 0, right: 0, left: 0, bottom: h };
+            if (animate) map.easeTo({ padding, duration: 300 });
+            else map.setPadding(padding);
+        }
+
+        function onLayoutChange() {
+            tip.remove();
+            tip = mobile.matches ? mobileTip : desktopTip;
+            fitToSheet(true);
+        }
+
+        if (mobile.matches) setCollapsed(true);    // start with the map in view on phones
+        tip = mobile.matches ? mobileTip : desktopTip;
+        fitToSheet(false);
+        new ResizeObserver(() => fitToSheet(true)).observe(panel);
+        mobile.addEventListener('change', onLayoutChange);
+    </script>
+</body>
+
+</html>
